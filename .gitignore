@@ -1,0 +1,12 @@
+# Archivos generados por Xilinx Vivado, Intel Quartus, etc.
+*.log
+*.jou
+*.str
+*.mif
+*.xpr.data/
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+build/
+sim/
