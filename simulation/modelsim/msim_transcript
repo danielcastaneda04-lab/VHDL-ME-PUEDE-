@@ -1,0 +1,175 @@
+# Reading C:/altera/13.0sp1/modelsim_ase/tcl/vsim/pref.tcl 
+# do top_pantilt_run_msim_rtl_vhdl.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity pwm_servo
+# -- Compiling architecture rtl of pwm_servo
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity top_pantilt
+# -- Compiling architecture structural of top_pantilt
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Compiling entity bcd_7seg
+# -- Compiling architecture rtl of bcd_7seg
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity hex7seg
+# -- Compiling architecture behavioral of hex7seg
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity UART_RX
+# -- Compiling architecture rtl of UART_RX
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity parser_cmd
+# -- Compiling architecture rtl of parser_cmd
+# 
+# vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/tb_top_pantilt.vhd}
+# Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_top_pantilt
+# -- Compiling architecture sim of tb_top_pantilt
+# 
+# vsim -t 1ps -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneii -L rtl_work -L work -voptargs="+acc"  tb_top_pantilt
+# vsim -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cycloneii -L rtl_work -L work -voptargs=\"+acc\" -t 1ps tb_top_pantilt 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_top_pantilt(sim)
+# Loading work.top_pantilt(structural)
+# Loading work.uart_rx(rtl)
+# Loading work.parser_cmd(rtl)
+# Loading work.pwm_servo(rtl)
+# Loading work.hex7seg(behavioral)
+# Loading work.bcd_7seg(rtl)
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# ** Note: === INICIO TESTBENCH top_pantilt (Tabla 3: displays por SW[0]) ===
+#    Time: 0 ps  Iteration: 0  Instance: /tb_top_pantilt
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /tb_top_pantilt/DUT/U_HEX
+# ** Error: FALLO: HEX3 deberia mostrar 'P' con SW[0]=0
+#    Time: 1 us  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: reset -> HEX3='P', angulo mostrado = 90
+#    Time: 1 us  Iteration: 0  Instance: /tb_top_pantilt
+# ** Error: FALLO: pulso PWM de pan incorrecto tras P150. Esperado ~2582 us, medido 1970 us
+#    Time: 21970490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: P150 -> display PAN = 150, pulso PWM = 1970 us
+#    Time: 21970490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Error: FALLO: HEX3 deberia mostrar 't' con SW[0]=1
+#    Time: 21970690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: SW[0]=1 -> HEX3='t', angulo mostrado = 90 (tilt aun no modificado)
+#    Time: 21970690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Error: FALLO: pulso PWM de tilt incorrecto tras T060
+#    Time: 41088490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: T060 -> display TILT = 60, pulso PWM = 1088 us
+#    Time: 41088490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: SW[0]=0 -> PAN sigue en 150 (no afectado por T060)
+#    Time: 41088690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: T200 rechazado, display TILT permanece en 60, led_o = '1' (error)
+#    Time: 41109090 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: H -> ambos displays muestran 90
+#    Time: 41117490 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: === TODAS LAS PRUEBAS (Tabla 3 incluida) FINALIZARON SIN ERRORES ===
+#    Time: 41117490 ns  Iteration: 0  Instance: /tb_top_pantilt
+add wave  \
+sim:/tb_top_pantilt/servo_til
+add wave  \
+sim:/tb_top_pantilt/servo_pan
+run -all
+restart -f
+run 200 ms
+# ** Note: === INICIO TESTBENCH top_pantilt (Tabla 3: displays por SW[0]) ===
+#    Time: 0 ps  Iteration: 0  Instance: /tb_top_pantilt
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /tb_top_pantilt/DUT/U_HEX
+# ** Error: FALLO: HEX3 deberia mostrar 'P' con SW[0]=0
+#    Time: 1 us  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: reset -> HEX3='P', angulo mostrado = 90
+#    Time: 1 us  Iteration: 0  Instance: /tb_top_pantilt
+# ** Error: FALLO: pulso PWM de pan incorrecto tras P150. Esperado ~2582 us, medido 1970 us
+#    Time: 21970490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: P150 -> display PAN = 150, pulso PWM = 1970 us
+#    Time: 21970490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Error: FALLO: HEX3 deberia mostrar 't' con SW[0]=1
+#    Time: 21970690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: SW[0]=1 -> HEX3='t', angulo mostrado = 90 (tilt aun no modificado)
+#    Time: 21970690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Error: FALLO: pulso PWM de tilt incorrecto tras T060
+#    Time: 41088490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: T060 -> display TILT = 60, pulso PWM = 1088 us
+#    Time: 41088490 ns  Iteration: 3  Instance: /tb_top_pantilt
+# ** Note: OK: SW[0]=0 -> PAN sigue en 150 (no afectado por T060)
+#    Time: 41088690 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: T200 rechazado, display TILT permanece en 60, led_o = '1' (error)
+#    Time: 41109090 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: OK: H -> ambos displays muestran 90
+#    Time: 41117490 ns  Iteration: 0  Instance: /tb_top_pantilt
+# ** Note: === TODAS LAS PRUEBAS (Tabla 3 incluida) FINALIZARON SIN ERRORES ===
+#    Time: 41117490 ns  Iteration: 0  Instance: /tb_top_pantilt
+add wave  \
+sim:/tb_top_pantilt/hex_a
+add wave  \
+sim:/tb_top_pantilt/hex_b
+add wave  \
+sim:/tb_top_pantilt/hex_c
+add wave  \
+sim:/tb_top_pantilt/hex_sel
+run -all
+add wave  \
+sim:/tb_top_pantilt/rst
+add wave  \
+sim:/tb_top_pantilt/clk
+add wave  \
+sim:/tb_top_pantilt/uart_line
+run -all
+step -out
+step
+step -over
+step -over -current
+# WARNING: No extended dataflow license exists
+restart
+# WARNING: No extended dataflow license exists

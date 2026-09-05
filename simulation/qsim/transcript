@@ -1,0 +1,68 @@
+# do top_pantilt.do 
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module top_pantilt
+# 
+# Top level modules:
+# 	top_pantilt
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module top_pantilt_vlg_sample_tst
+# -- Compiling module top_pantilt_vlg_check_tst
+# -- Compiling module top_pantilt_vlg_vec_tst
+# ** Error: top_pantilt.vt(619): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(624): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(629): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(634): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(639): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(644): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(649): (vlog-2110) Illegal reference to net "hex_a_o".
+# 
+# ** Error: top_pantilt.vt(654): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(659): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(664): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(669): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(674): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(679): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(684): (vlog-2110) Illegal reference to net "hex_b_o".
+# 
+# ** Error: top_pantilt.vt(689): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(694): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(699): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(704): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(709): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(714): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(719): (vlog-2110) Illegal reference to net "hex_c_o".
+# 
+# ** Error: top_pantilt.vt(724): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(729): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(734): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(739): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(744): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(749): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: top_pantilt.vt(754): (vlog-2110) Illegal reference to net "hex_sel_o".
+# 
+# ** Error: c:/altera/13.0sp1/modelsim_ase/win32aloem/vlog failed.
+# Executing ONERROR command at macro ./top_pantilt.do line 4

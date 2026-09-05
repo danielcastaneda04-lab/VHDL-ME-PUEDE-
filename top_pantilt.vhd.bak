@@ -1,0 +1,53 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity top_pantilt is
+	generic(
+		N_POS : integer := '8'
+	)
+	
+	port (
+		clk_i		  : in std_logic;
+		rst_i		  : in std_logic;
+		position_i : in std_logic_vector (N_pOS - 1 downto 0);
+		
+		servo_pan_o : in std_logic_vector (N_POS-1 downto 0);
+		servo_til_o : in std_logic_vector (N_POS-1 downto 0);
+		
+		hex_a_o : in std_logic (7 downto 0);
+		hex_b_o : in std_logic (7 downto 0);
+		hex_c_o : in std_logic (7 downto 0);
+	)
+	
+architecture behavorial of top_pantilt is
+	
+	component bcd_7seg port 
+    (
+           bcd_i: in std_logic_vector(3 downto 0);
+			  seg_o: out std_logic_vector(6 downto 0)
+    );
+	 end component;
+	 
+	 
+	 
+	 
+	 
+	bcd0: bcd_7seg port map(
+		bcd_i=>s0,
+		seg_o=>display_o
+	);
+	bcd1: bcd_7seg port map(
+		bcd_i=>s1,
+		seg_o=>display1_o
+	);
+	bcd2: bcd_7seg port map(
+		bcd_i=>s2,
+		seg_o=>display2_o
+	);
+	bcd3: bcd_7seg port map(
+		bcd_i=>s3,
+		seg_o=>display3_o
+	);
+	
+end behavorial;

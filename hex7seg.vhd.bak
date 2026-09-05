@@ -1,0 +1,53 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity hex7seg is
+	port (
+		ang_i 	: in std_lOGIC_VECTOR(8 downto 0);
+		
+		seg_uni  : out STD_LOGIC_VECTOR(6 downto 0);
+		seg_dec  : out STD_LOGIC_VECTOR(6 downto 0);
+		seg_cent : out STD_LOGIC_VECTOR(6 downto 0)
+	)
+	
+	
+architecture behavioral of hex7seg is
+	signal ang_x  : STD_LOGIC_VECTOR(7 downto 0);
+	
+	signal unidad  : STD_LOGIC_VECTOR(3 downto 0);
+	signal decena  : STD_LOGIC_VECTOR(3 downto 0);
+	signal centena : STD_LOGIC_VECTOR(3 downto 0);
+	
+begin 
+	
+	process (ang_i)
+		
+		variable ang_v   : std_LOGIC_VECTOR(7 downto 0);
+		variable unidad  : STD_LOGIC_VECTOR(3 downto 0):= "0000";
+		variable decena  : STD_LOGIC_VECTOR(3 downto 0):= "0000";
+		variable centena : STD_LOGIC_VECTOR(3 downto 0):= "0000";
+		
+	begin
+		ang_v := to_unsigned(ang_i);
+		
+		
+		while ang_v >= 100 loop
+			ang_v := ang_v - 100;
+			centenas := centenas + 1;
+		end loop;
+			
+		while ang_v >= 10 loop
+			ang_v := ang_v - 10;
+			decenas := decenas + 1;
+		end loop;
+		
+		unidades := ang_v;
+		
+	end process;
+	
+	
+			
+	
+	
+	

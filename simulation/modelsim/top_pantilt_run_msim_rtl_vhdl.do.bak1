@@ -1,0 +1,14 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd}
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd}
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd}
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd}
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd}
+vcom -93 -work work {C:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd}
+

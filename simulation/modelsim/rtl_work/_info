@@ -1,0 +1,262 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\altera\13.0sp1\Electro_DigII\LAB_I_2\simulation\modelsim
+Ebcd_7seg
+Z1 w1788352558
+Z2 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z3 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z4 dC:\altera\13.0sp1\Electro_DigII\LAB_I_2\simulation\modelsim
+Z5 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd
+Z6 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd
+l0
+L4
+V];LRU>h@X<97>]3T;`0LH3
+Z7 OV;C;10.1d;51
+31
+Z8 !s108 1788533868.522000
+Z9 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd|
+Z10 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/bcd_7seg.vhd|
+Z11 o-93 -work work -O0
+Z12 tExplicit 1
+!s100 5;Q2cX?=96W@WSbOAc<I^1
+!i10b 1
+Artl
+R2
+R3
+DEx4 work 8 bcd_7seg 0 22 ];LRU>h@X<97>]3T;`0LH3
+l13
+L12
+VGhGEh<99H3jC59]MAzU?F3
+R7
+31
+R8
+R9
+R10
+R11
+R12
+!s100 ICCbN3XSKzFOmLamSF]f12
+!i10b 1
+Ehex7seg
+Z13 w1787748927
+Z14 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+R2
+R3
+R4
+Z15 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd
+Z16 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd
+l0
+L9
+Vm94L_a7BS>^ejbF=>l2U:2
+R7
+31
+Z17 !s108 1788533868.592000
+Z18 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd|
+Z19 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/hex7seg.vhd|
+R11
+R12
+!s100 2mRgC_CG]TzPB[gTfiPSB3
+!i10b 1
+Abehavioral
+R14
+R2
+R3
+DEx4 work 7 hex7seg 0 22 m94L_a7BS>^ejbF=>l2U:2
+l32
+L19
+V`04lJGPmHVC7k5:LT8CMB0
+R7
+31
+R17
+R18
+R19
+R11
+R12
+!s100 la5BamUmiLFmFklS]WGM12
+!i10b 1
+Eparser_cmd
+Z20 w1788532399
+R14
+R2
+R3
+R4
+Z21 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd
+Z22 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd
+l0
+L18
+VU:Q37?z9A1PKmXV5Cablf1
+R7
+31
+Z23 !s108 1788533868.722000
+Z24 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd|
+Z25 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/parser_cmd.vhd|
+R11
+R12
+!s100 2=L^=mG^AjL?]CJHXIm`^0
+!i10b 1
+Artl
+R14
+R2
+R3
+DEx4 work 10 parser_cmd 0 22 U:Q37?z9A1PKmXV5Cablf1
+l99
+L45
+VSI`ODd_G>MzXL`<l@4Sk30
+R7
+31
+R23
+R24
+R25
+R11
+R12
+!s100 3@;H>NKGNKEaS85Ma:jKe3
+!i10b 1
+Epwm_servo
+Z26 w1788357922
+R14
+R2
+R3
+R4
+Z27 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd
+Z28 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd
+l0
+L5
+V=Iie<1]O<cZgdShX20]C]2
+R7
+31
+Z29 !s108 1788533868.385000
+Z30 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd|
+Z31 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/pwm_servo.vhd|
+R11
+R12
+!s100 jm:BE7Tn^_B1CMJIHNZei2
+!i10b 1
+Artl
+R14
+R2
+R3
+DEx4 work 9 pwm_servo 0 22 =Iie<1]O<cZgdShX20]C]2
+l35
+L23
+VQG5XEY9<bIk4`M^hOk98]3
+R7
+31
+R29
+R30
+R31
+R11
+R12
+!s100 Cj4GaQ1M_Znf<DA5Q]B8i3
+!i10b 1
+Etb_top_pantilt
+Z32 w1788531699
+R14
+R2
+R3
+R4
+Z33 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/tb_top_pantilt.vhd
+Z34 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/tb_top_pantilt.vhd
+l0
+L21
+VE>LdgodX2MT[PeQ]@Hj]U2
+!s100 0;=2`XoGM2CjXA1eFEn7d3
+R7
+31
+!i10b 1
+Z35 !s108 1788533868.790000
+Z36 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/tb_top_pantilt.vhd|
+Z37 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/tb_top_pantilt.vhd|
+R11
+R12
+Asim
+R14
+R2
+R3
+DEx4 work 14 tb_top_pantilt 0 22 E>LdgodX2MT[PeQ]@Hj]U2
+l82
+L24
+Vf88lHKT7TQfdPP0egU4Z03
+!s100 V5jNj4EbklJg6i:NNi[m22
+R7
+31
+!i10b 1
+R35
+R36
+R37
+R11
+R12
+Etop_pantilt
+Z38 w1788451132
+R14
+R2
+R3
+R4
+Z39 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd
+Z40 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd
+l0
+L12
+Vo[nJEo[F0Vg[XX48h1jS33
+R7
+31
+Z41 !s108 1788533868.462000
+Z42 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd|
+Z43 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/top_pantilt.vhd|
+R11
+R12
+!s100 IRlLbo9hYHYZ=Nhn]<@AH1
+!i10b 1
+Astructural
+R14
+R2
+R3
+DEx4 work 11 top_pantilt 0 22 o[nJEo[F0Vg[XX48h1jS33
+l123
+L42
+Vl`TG4j0]<m1R@mVi14EB<1
+R7
+31
+R41
+R42
+R43
+R11
+R12
+!s100 JCUhHCQG1caA`W`NdcSb20
+!i10b 1
+Euart_rx
+Z44 w1788458199
+R14
+R2
+R3
+R4
+Z45 8C:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd
+Z46 FC:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd
+l0
+L5
+Vfia]]HJ709N[QBjjDYh8S2
+R7
+31
+Z47 !s108 1788533868.652000
+Z48 !s90 -reportprogress|300|-93|-work|work|C:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd|
+Z49 !s107 C:/altera/13.0sp1/Electro_DigII/LAB_I_2/UART_RX.vhd|
+R11
+R12
+!s100 @Fh]nie6e;3_JF19DSG4d2
+!i10b 1
+Artl
+R14
+R2
+R3
+DEx4 work 7 uart_rx 0 22 fia]]HJ709N[QBjjDYh8S2
+l32
+L18
+VU3B00IkWN01Z5Pc7EO=XU2
+R7
+31
+R47
+R48
+R49
+R11
+R12
+!s100 J69Z5EdO_QZ[7kQg_e7TV0
+!i10b 1

@@ -1,0 +1,278 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+--codigo echo por inteligengia artificial para poder estudiarlo 
+-- parser_cmd: interprete de comandos ASCII recibidos por UART.
+--
+-- Sintaxis reconocida (todas terminan en <CR> = 0x0D):
+--   P<ddd><CR>  Posicionar acimut (pan)  0..180
+--   T<ddd><CR>  Posicionar elevacion (tilt), saturado a limites de seguridad
+--   H<CR>       Reposo: ambos ejes a 090
+--   S<CR>       Barrido automatico del eje pan hasta recibir otro comando
+--   X<CR>       Parada: congela ambos ejes e ignora comandos siguientes
+--   R<CR>       Rearme: sale de Parada y vuelve a admitir comandos
+--
+-- Cualquier caracter fuera de secuencia aborta la trama en curso
+-- (recuperacion automatica, vuelve a esperar el proximo comando).
+
+entity parser_cmd is
+	generic (
+		N_POS         : integer := 8;         -- ancho de las consignas de angulo
+		F_CLK         : integer := 50_000_000; -- Hz, reloj del sistema
+		PAN_MIN_DEG   : integer := 0;          -- limite inferior de pan
+		PAN_MAX_DEG   : integer := 180;        -- limite superior de pan
+		TILT_MIN_DEG  : integer := 45;         -- limite inferior de tilt (seguridad)
+		TILT_MAX_DEG  : integer := 135;        -- limite superior de tilt (seguridad)
+		HOME_DEG      : integer := 90;         -- posicion de reposo
+		SWEEP_STEP_MS : integer := 30          -- ms entre cada paso de 1 grado en el barrido
+	);
+	port (
+		clk       : in  std_logic;
+		rst       : in  std_logic;
+		rx_dv_i   : in  std_logic;                     -- pulso: byte ASCII nuevo valido
+		rx_byte_i : in  std_logic_vector(7 downto 0);  -- byte ASCII recibido por UART
+
+		pan_angle_o  : out std_logic_vector(N_POS-1 downto 0); -- consigna servo pan
+		tilt_angle_o : out std_logic_vector(N_POS-1 downto 0); -- consigna servo tilt
+
+		disp_angle_o : out std_logic_vector(N_POS-1 downto 0); -- angulo a mostrar en displays
+		disp_mode_o  : out std_logic_vector(3 downto 0)        -- codigo para display indicador (p/t/H/S/X)
+	);
+end parser_cmd;
+
+architecture rtl of parser_cmd is
+
+	-- Codigos ASCII relevantes
+	constant C_CR   : std_logic_vector(7 downto 0) := x"0D";
+	constant C_P_U  : std_logic_vector(7 downto 0) := x"50"; -- 'P'
+	constant C_P_L  : std_logic_vector(7 downto 0) := x"70"; -- 'p'
+	constant C_T_U  : std_logic_vector(7 downto 0) := x"54"; -- 'T'
+	constant C_T_L  : std_logic_vector(7 downto 0) := x"74"; -- 't'
+	constant C_H_U  : std_logic_vector(7 downto 0) := x"48"; -- 'H'
+	constant C_H_L  : std_logic_vector(7 downto 0) := x"68"; -- 'h'
+	constant C_S_U  : std_logic_vector(7 downto 0) := x"53"; -- 'S'
+	constant C_S_L  : std_logic_vector(7 downto 0) := x"73"; -- 's'
+	constant C_X_U  : std_logic_vector(7 downto 0) := x"58"; -- 'X'
+	constant C_X_L  : std_logic_vector(7 downto 0) := x"78"; -- 'x'
+	constant C_R_U  : std_logic_vector(7 downto 0) := x"52"; -- 'R'
+	constant C_R_L  : std_logic_vector(7 downto 0) := x"72"; -- 'r'
+
+	-- Codigos del display indicador (usan las entradas extra de bcd_7seg)
+	constant D_PAN  : std_logic_vector(3 downto 0) := "1010"; -- 'p'
+	constant D_TILT : std_logic_vector(3 downto 0) := "1011"; -- 't'
+	constant D_HOME : std_logic_vector(3 downto 0) := "1100"; -- 'H'
+	constant D_SWEEP: std_logic_vector(3 downto 0) := "1101"; -- 'S'
+	constant D_STOP : std_logic_vector(3 downto 0) := "1110"; -- 'X'
+
+	type t_fsm  is (S_WAIT, S_DIGIT1, S_DIGIT2, S_DIGIT3, S_WAIT_CR);
+	type t_mode is (M_NORMAL, M_SWEEP, M_STOPPED);
+
+	signal r_fsm      : t_fsm  := S_WAIT;
+	signal r_mode     : t_mode := M_NORMAL;
+	signal r_cmd_char : std_logic_vector(7 downto 0) := (others => '0');
+
+	signal r_d1, r_d2, r_d3 : integer range 0 to 9 := 0;
+
+	signal r_pan   : unsigned(N_POS-1 downto 0) := to_unsigned(HOME_DEG, N_POS);
+	signal r_tilt  : unsigned(N_POS-1 downto 0) := to_unsigned(HOME_DEG, N_POS);
+
+	signal r_disp_angle : unsigned(N_POS-1 downto 0) := to_unsigned(HOME_DEG, N_POS);
+	signal r_disp_mode  : std_logic_vector(3 downto 0) := D_PAN;
+
+	signal rx_dv_d : std_logic := '0'; -- para detectar flanco de subida de rx_dv_i
+
+	-- generador de barrido
+	constant C_SWEEP_TICKS : integer := (F_CLK/1000) * SWEEP_STEP_MS;
+	signal r_sweep_cnt : integer range 0 to C_SWEEP_TICKS-1 := 0;
+	signal r_sweep_dir : std_logic := '1'; -- '1' = incrementando
+
+	function is_digit(b : std_logic_vector(7 downto 0)) return boolean is
+	begin
+		return (b >= x"30") and (b <= x"39");
+	end function;
+
+	function ascii2int(b : std_logic_vector(7 downto 0)) return integer is
+	begin
+		return to_integer(unsigned(b)) - 48;
+	end function;
+
+begin
+
+	process(clk)
+		variable v_val : integer range 0 to 999;
+		variable v_byte_event : boolean;
+	begin
+		if rising_edge(clk) then
+
+			if rst = '1' then
+				r_fsm        <= S_WAIT;
+				r_mode       <= M_NORMAL;
+				r_pan        <= to_unsigned(HOME_DEG, N_POS);
+				r_tilt       <= to_unsigned(HOME_DEG, N_POS);
+				r_disp_angle <= to_unsigned(HOME_DEG, N_POS);
+				r_disp_mode  <= D_PAN;
+				r_sweep_cnt  <= 0;
+				r_sweep_dir  <= '1';
+				rx_dv_d      <= '0';
+
+			else
+				rx_dv_d <= rx_dv_i;
+				v_byte_event := (rx_dv_i = '1') and (rx_dv_d = '0');
+
+				if v_byte_event then
+					-------------------------------------------------------------
+					-- Maquina de estados del framer ASCII
+					-------------------------------------------------------------
+					case r_fsm is
+
+						when S_WAIT =>
+							if (rx_byte_i = C_P_U) or (rx_byte_i = C_P_L) then
+								r_cmd_char <= C_P_U; r_fsm <= S_DIGIT1;
+							elsif (rx_byte_i = C_T_U) or (rx_byte_i = C_T_L) then
+								r_cmd_char <= C_T_U; r_fsm <= S_DIGIT1;
+							elsif (rx_byte_i = C_H_U) or (rx_byte_i = C_H_L) or
+							      (rx_byte_i = C_S_U) or (rx_byte_i = C_S_L) or
+							      (rx_byte_i = C_X_U) or (rx_byte_i = C_X_L) or
+							      (rx_byte_i = C_R_U) or (rx_byte_i = C_R_L) then
+								-- normaliza a mayuscula para el case posterior
+								if (rx_byte_i = C_H_U) or (rx_byte_i = C_H_L) then r_cmd_char <= C_H_U;
+								elsif (rx_byte_i = C_S_U) or (rx_byte_i = C_S_L) then r_cmd_char <= C_S_U;
+								elsif (rx_byte_i = C_X_U) or (rx_byte_i = C_X_L) then r_cmd_char <= C_X_U;
+								else r_cmd_char <= C_R_U;
+								end if;
+								r_fsm <= S_WAIT_CR;
+							else
+								r_fsm <= S_WAIT; -- caracter desconocido, se ignora
+							end if;
+
+						when S_DIGIT1 =>
+							if is_digit(rx_byte_i) then
+								r_d1 <= ascii2int(rx_byte_i);
+								r_fsm <= S_DIGIT2;
+							else
+								r_fsm <= S_WAIT; -- trama malformada, abortar
+							end if;
+
+						when S_DIGIT2 =>
+							if is_digit(rx_byte_i) then
+								r_d2 <= ascii2int(rx_byte_i);
+								r_fsm <= S_DIGIT3;
+							else
+								r_fsm <= S_WAIT;
+							end if;
+
+						when S_DIGIT3 =>
+							if is_digit(rx_byte_i) then
+								r_d3 <= ascii2int(rx_byte_i);
+								r_fsm <= S_WAIT_CR;
+							else
+								r_fsm <= S_WAIT;
+							end if;
+
+						when S_WAIT_CR =>
+							r_fsm <= S_WAIT; -- por defecto, vuelve a esperar (tanto si CR es valido como si no)
+
+							if rx_byte_i = C_CR then
+								-----------------------------------------------------
+								-- Trama completa: ejecutar comando
+								-----------------------------------------------------
+								case r_cmd_char is
+
+									when C_P_U => -- Posicionar acimut (pan)
+										if r_mode /= M_STOPPED then
+											v_val := r_d1*100 + r_d2*10 + r_d3;
+											if v_val > PAN_MAX_DEG then v_val := PAN_MAX_DEG; end if;
+											if v_val < PAN_MIN_DEG then v_val := PAN_MIN_DEG; end if;
+											r_pan        <= to_unsigned(v_val, N_POS);
+											r_mode       <= M_NORMAL;
+											r_disp_angle <= to_unsigned(v_val, N_POS);
+											r_disp_mode  <= D_PAN;
+										end if;
+
+									when C_T_U => -- Posicionar elevacion (tilt), dentro de limites de seguridad
+										if r_mode /= M_STOPPED then
+											v_val := r_d1*100 + r_d2*10 + r_d3;
+											if v_val > TILT_MAX_DEG then v_val := TILT_MAX_DEG; end if;
+											if v_val < TILT_MIN_DEG then v_val := TILT_MIN_DEG; end if;
+											r_tilt       <= to_unsigned(v_val, N_POS);
+											r_mode       <= M_NORMAL;
+											r_disp_angle <= to_unsigned(v_val, N_POS);
+											r_disp_mode  <= D_TILT;
+										end if;
+
+									when C_H_U => -- Reposo: ambos ejes a 090
+										if r_mode /= M_STOPPED then
+											r_pan        <= to_unsigned(HOME_DEG, N_POS);
+											r_tilt       <= to_unsigned(HOME_DEG, N_POS);
+											r_mode       <= M_NORMAL;
+											r_disp_angle <= to_unsigned(HOME_DEG, N_POS);
+											r_disp_mode  <= D_HOME;
+										end if;
+
+									when C_S_U => -- Barrido automatico de pan
+										if r_mode /= M_STOPPED then
+											r_mode      <= M_SWEEP;
+											r_sweep_cnt <= 0;
+											r_disp_mode <= D_SWEEP;
+										end if;
+
+									when C_X_U => -- Parada: congela ambos ejes, ignora comandos siguientes
+										r_mode      <= M_STOPPED;
+										r_disp_mode <= D_STOP;
+
+									when C_R_U => -- Rearme: sale de Parada
+										if r_mode = M_STOPPED then
+											r_mode      <= M_NORMAL;
+											r_disp_mode <= D_PAN;
+											r_disp_angle<= r_pan;
+										end if;
+
+									when others =>
+										null;
+
+								end case;
+							end if;
+
+					end case;
+
+				elsif r_mode = M_SWEEP then
+					-------------------------------------------------------------
+					-- Generador de barrido: rebota el pan entre PAN_MIN_DEG y PAN_MAX_DEG
+					-------------------------------------------------------------
+					if r_sweep_cnt = C_SWEEP_TICKS-1 then
+						r_sweep_cnt <= 0;
+
+						if r_sweep_dir = '1' then
+							if r_pan >= to_unsigned(PAN_MAX_DEG, N_POS) then
+								r_sweep_dir <= '0';
+								r_pan       <= r_pan - 1;
+							else
+								r_pan <= r_pan + 1;
+							end if;
+						else
+							if r_pan <= to_unsigned(PAN_MIN_DEG, N_POS) then
+								r_sweep_dir <= '1';
+								r_pan       <= r_pan + 1;
+							else
+								r_pan <= r_pan - 1;
+							end if;
+						end if;
+
+						r_disp_angle <= r_pan;
+					else
+						r_sweep_cnt <= r_sweep_cnt + 1;
+					end if;
+				end if;
+
+			end if;
+		end if;
+	end process;
+
+	pan_angle_o  <= std_logic_vector(r_pan);
+	tilt_angle_o <= std_logic_vector(r_tilt);
+	disp_angle_o <= std_logic_vector(r_disp_angle);
+	disp_mode_o  <= r_disp_mode;
+
+end architecture rtl;
+	
